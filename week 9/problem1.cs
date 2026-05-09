@@ -9,7 +9,7 @@ namespace w9p1
     public class Circle
     {
         protected double radius;
-        public string color;
+        protected string color;
 
         public Circle()
         {
@@ -75,8 +75,14 @@ namespace w9p1
             this.height = height;
         }
 
-        public double GetHeight() { return height; }
-        public void SetHeight(double height) { this.height = height; }
+        public double GetHeight() 
+        { 
+            return height;
+        }
+        public void SetHeight(double height)
+        {
+            this.height = height; 
+        }
 
         public override double GetArea()
         {
