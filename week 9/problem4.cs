@@ -1,133 +1,138 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace w9p4
+class Shape
 {
-    public class Shape
+    public virtual double GetArea()
     {
-        public virtual double GetArea()
-        {
-            return 0;
-        }
-
-        public override string ToString()
-        {
-            return "Shape";
-        }
+        return 0;
     }
 
-    public class Rectangle : Shape
+    public virtual string GetShapeType()
     {
-        private double width;
-        private double height;
+        return "Shape";
+    }
+}
 
-        public Rectangle(double width, double height)
-        {
-            this.width = width;
-            this.height = height;
-        }
+class Rectangle : Shape
+{
+    private double width;
+    private double height;
 
-        public override double GetArea()
-        {
-            return width * height;
-        }
-
-        public override string ToString()
-        {
-            return "Rectangle";
-        }
+    public Rectangle(double width, double height)
+    {
+        this.width = width;
+        this.height = height;
     }
 
-    public class Square : Shape
+    public override double GetArea()
     {
-        private double side;
-
-        public Square(double side)
-        {
-            this.side = side;
-        }
-
-        public override double GetArea()
-        {
-            return side * side;
-        }
-
-        public override string ToString()
-        {
-            return "Square";
-        }
+        return width * height;
     }
 
-    public class Circle : Shape
+    public override string GetShapeType()
     {
-        private double radius;
+        return "Rectangle";
+    }
+}
 
-        public Circle(double radius)
-        {
-            this.radius = radius;
-        }
+class Square : Shape
+{
+    private double side;
 
-        public override double GetArea()
-        {
-            return Math.PI * radius * radius;
-        }
-
-        public override string ToString()
-        {
-            return "Circle";
-        }
+    public Square(double side)
+    {
+        this.side = side;
     }
 
-    public class RectangleUI
+    public override double GetArea()
     {
-        public static Rectangle Create()
-        {
-            Console.Write("Enter Width: ");
-            double width = double.Parse(Console.ReadLine());
-            Console.Write("Enter Height: ");
-            double height = double.Parse(Console.ReadLine());
-            return new Rectangle(width, height);
-        }
+        return side * side;
     }
 
-    public class SquareUI
+    public override string GetShapeType()
     {
-        public static Square Create()
-        {
-            Console.Write("Enter Side: ");
-            double side = double.Parse(Console.ReadLine());
-            return new Square(side);
-        }
+        return "Square";
+    }
+}
+
+class Circle : Shape
+{
+    private double radius;
+
+    public Circle(double radius)
+    {
+        this.radius = radius;
     }
 
-    public class CircleUI
+    public override double GetArea()
     {
-        public static Circle Create()
-        {
-            Console.Write("Enter radius: ");
-            double radius = double.Parse(Console.ReadLine());
-            return new Circle(radius);
-        }
+        return 3.14159 * radius * radius;
     }
 
-    internal class Program
+    public override string GetShapeType()
     {
-        static void Main(string[] args)
+        return "Circle";
+    }
+}
+
+class RectangleUI
+{
+    public Rectangle CreateShape()
+    {
+        Console.Write("Enter Width: ");
+        double width = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Enter Height: ");
+        double height = Convert.ToDouble(Console.ReadLine());
+
+        return new Rectangle(width, height);
+    }
+}
+
+class SquareUI
+{
+    public Square CreateShape()
+    {
+        Console.Write("Enter Side: ");
+        double side = Convert.ToDouble(Console.ReadLine());
+
+        return new Square(side);
+    }
+}
+
+class CircleUI
+{
+    public Circle CreateShape()
+    {
+        Console.Write("Enter Radius: ");
+        double radius = Convert.ToDouble(Console.ReadLine());
+
+        return new Circle(radius);
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        List<Shape> shapes = new List<Shape>();
+
+        RectangleUI rectangleUI = new RectangleUI();
+        SquareUI squareUI = new SquareUI();
+        CircleUI circleUI = new CircleUI();
+
+        shapes.Add(rectangleUI.CreateShape());
+        shapes.Add(squareUI.CreateShape());
+        shapes.Add(circleUI.CreateShape());
+
+        Console.WriteLine("\nShapes Information:\n");
+
+        foreach (Shape s in shapes)
         {
-            List<Shape> shapeList = new List<Shape>();
-
-            shapeList.Add(RectangleUI.Create());
-            shapeList.Add(CircleUI.Create());
-            shapeList.Add(SquareUI.Create());
-            shapeList.Add(RectangleUI.Create());
-            shapeList.Add(CircleUI.Create());
-
+            Console.WriteLine("Shape Type: " + s.GetShapeType());
+            Console.WriteLine("Area: " + s.GetArea());
             Console.WriteLine();
-
-            for (int i = 0; i < shapeList.Count; i++)
-            {
-                Console.WriteLine((i + 1) + ".The shape is " + shapeList[i].ToString() + " and its area is " + shapeList[i].GetArea());
-            }
         }
     }
 }

@@ -1,153 +1,111 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace w9p1
+class Circle
 {
-    public class Circle
+    protected double radius = 1.0;
+    protected string color = "red";
+
+    public Circle()
     {
-        protected double radius;
-        protected string color;
-
-        public Circle()
-        {
-            this.radius = 1.0;
-            this.color = "red";
-        }
-
-        public Circle(double radius)
-        {
-            this.radius = radius;
-            this.color = "red";
-        }
-
-        public Circle(double radius, string color)
-        {
-            this.radius = radius;
-            this.color = color;
-        }
-
-        public double GetRadius()
-        { 
-            return radius;
-        }
-        public void SetRadius(double radius)
-        {
-            this.radius = radius; 
-        }
-        public string GetColor()
-        { 
-            return color;
-        }
-        public void SetColor(string color) 
-        { 
-            this.color = color; 
-        }
-
-        public virtual double GetArea()
-        {
-            return Math.PI * radius * radius;
-        }
-
-        public override string ToString()
-        {
-            return "Circle[radius=" + radius + ",color=" + color + "]";
-        }
     }
 
-    public class Cylinder : Circle
+    public Circle(double radius)
     {
-        private double height = 1.0;
-
-        public Cylinder() { }
-
-        public Cylinder(double radius) : base(radius) { }
-
-        public Cylinder(double radius, double height) : base(radius)
-        {
-            this.height = height;
-        }
-
-        public Cylinder(double radius, double height, string color) : base(radius, color)
-        {
-            this.height = height;
-        }
-
-        public double GetHeight() 
-        { 
-            return height;
-        }
-        public void SetHeight(double height)
-        {
-            this.height = height; 
-        }
-
-        public override double GetArea()
-        {
-            return 2 * Math.PI * radius * (radius + height);
-        }
-
-        public double GetVolume()
-        {
-            return Math.PI * radius * radius * height;
-        }
-
-        public override string ToString()
-        {
-            return "Cylinder[radius=" + radius + ",color=" + color + ",height=" + height + "]";
-        }
+        this.radius = radius;
     }
 
-    internal class Program
+    public Circle(double radius, string color)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("====== POLYMORPHISM DEMO ======");
-            Console.WriteLine();
+        this.radius = radius;
+        this.color = color;
+    }
 
-            Circle shape1 = new Cylinder();
-            Circle shape2 = new Cylinder(3.0, 7.0);
-            Circle shape3 = new Cylinder(4.0, 10.0, "blue");
+    public double GetRadius()
+    {
+        return radius;
+    }
 
-            Circle[] shapes = { shape1, shape2, shape3 };
+    public void SetRadius(double radius)
+    {
+        this.radius = radius;
+    }
 
-            Console.WriteLine("--- Before Setting Height ---");
-            Console.WriteLine();
+    public string GetColor()
+    {
+        return color;
+    }
 
-            foreach (Circle s in shapes)
-            {
-                Console.WriteLine(s.ToString());
-                Console.WriteLine("Area (Polymorphic): " + s.GetArea());
-                Console.WriteLine();
-            }
+    public void SetColor(string color)
+    {
+        this.color = color;
+    }
 
-            Console.WriteLine("--- After Setting Height ---");
-            Console.WriteLine();
+    public double GetArea()
+    {
+        return 3.14159 * radius * radius;
+    }
 
-            ((Cylinder)shape1).SetHeight(5.0);
+    public override string ToString()
+    {
+        return "Circle[radius=" + radius + ",color=" + color + "]";
+    }
+}
 
-            foreach (Circle s in shapes)
-            {
-                Cylinder c = (Cylinder)s;
-                Console.WriteLine(c.ToString());
-                Console.WriteLine("Height : " + c.GetHeight());
-                Console.WriteLine("Volume : " + c.GetVolume());
-                Console.WriteLine("Area   : " + c.GetArea());
-                Console.WriteLine();
-            }
+class Cylinder : Circle
+{
+    protected double height = 1.0;
 
-            Console.WriteLine("====== OBJECT TYPE CHECK ======");
-            Console.WriteLine();
+    public Cylinder() : base()
+    {
+    }
 
-            foreach (Circle s in shapes)
-            {
-                if (s is Cylinder)
-                {
-                    Console.WriteLine(s.ToString() + " => IS a Cylinder");
-                }
-            }
-        }
+    public Cylinder(double radius) : base(radius)
+    {
+    }
+
+    public Cylinder(double radius, double height) : base(radius)
+    {
+        this.height = height;
+    }
+
+    public Cylinder(double radius, double height, string color)
+        : base(radius, color)
+    {
+        this.height = height;
+    }
+
+    public double GetHeight()
+    {
+        return height;
+    }
+
+    public void SetHeight(double height)
+    {
+        this.height = height;
+    }
+
+    public double GetVolume()
+    {
+        return GetArea() * height;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Cylinder c1 = new Cylinder();
+
+        Console.WriteLine(c1.ToString());
+        Console.WriteLine("Height: " + c1.GetHeight());
+        Console.WriteLine("Volume: " + c1.GetVolume());
+
+        Console.WriteLine();
+
+        Cylinder c2 = new Cylinder(5.0, 10.0, "blue");
+
+        Console.WriteLine(c2.ToString());
+        Console.WriteLine("Height: " + c2.GetHeight());
+        Console.WriteLine("Volume: " + c2.GetVolume());
     }
 }
